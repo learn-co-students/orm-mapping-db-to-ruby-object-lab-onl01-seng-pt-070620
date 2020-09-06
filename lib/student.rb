@@ -81,12 +81,13 @@ class Student
           FROM students
           WHERE grade < 12
         SQL
-    
+        
+        # question for Dalia
+        # this line should work run what student returns but it is not
         student = DB[:conn].execute(sql)
-        # why new from db is needed here to pass the test??
-        # using pry to demo the problem
+        # why new_from_db needs to be called pass the test??
         student.map {|row| self.new_from_db(row)}
-        binding.pry
+        # add pry in this line to demo the problem
       end
 
       def self.first_X_students_in_grade_10(num)
