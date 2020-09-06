@@ -86,6 +86,7 @@ class Student
         # why new from db is needed here to pass the test??
         # using pry to demo the problem
         student.map {|row| self.new_from_db(row)}
+        binding.pry
       end
 
       def self.first_X_students_in_grade_10(num)
