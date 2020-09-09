@@ -57,7 +57,6 @@ class Student
   def self.drop_table
     sql = "DROP TABLE IF EXISTS students"
     DB[:conn].execute(sql)
-      end
   end
 
 
@@ -86,7 +85,7 @@ class Student
     end
   end
 
-  def self.first_X_students_in_grade_10
+  def self.first_X_students_in_grade_10(x)
    sql = <<-SQL
    SELECT *
    FROM students
@@ -94,7 +93,7 @@ class Student
    LIMIT ?
    SQL
 
-   DB[:conn].execute(sql).map do |row|
+   DB[:conn].execute(sql, x).map do |row|
     self.new_from_db(row)
     end
   end
@@ -119,10 +118,8 @@ class Student
     WHERE grade = ?
     SQL
 
-    DB[:conn].execute(sql).map do |row|
+    DB[:conn].execute(sql, grade).map do |row|
       self.new_from_db(row)
     end
   end
-
-
-
+end
