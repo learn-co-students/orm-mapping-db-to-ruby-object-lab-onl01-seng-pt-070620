@@ -69,15 +69,40 @@ class Student
       SELECT *
       FROM students
       WHERE grade = 10
-      LIMIT 2
+      LIMIT ?
     SQL
 
-    i = 0
-    while i < num-1 do
-      binding.pry
-      self.new_from_db(DB[:conn].execute(sql)[i][0])
-      i+=1
+    #binding.pry
+    DB[:conn].execute(sql,num).map do |row|
+      self.new_from_db(row)
     end
+  end
+
+  def self.first_student_in_grade_10
+    sql = <<-SQL
+      SELECT *
+      FROM students
+      WHERE grade = 10
+      ORDER BY id
+      LIMIT 1
+    SQL
+    DB[:conn].execute(sql).map do |row|
+      self.new_from_db(row)
+    end.first
+  end
+
+  def self.all_students_in_grade_X(num)
+    sql=<<-SQL
+      SELECT *
+      FROM students
+      WHERE grade = ?
+    SQL
+
+    #binding.pry
+    DB[:conn].execute(sql,num).map do |row|
+      self.new_from_db(row)
+    end
+
   end
 
   def save
